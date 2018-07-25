@@ -46,6 +46,9 @@ if (_hitPointIndex < 0) then {
     _unit setVariable [HIT_CRASH, -1];
 };
 
+// Damage can be disabled with old variable or via sqf command allowDamage
+if !(isDamageAllowed _unit && _unit getVariable [QEGVAR(medical,allowDamage), true]) exitWith {_oldDamage};
+
 private _newDamage = _damage - _oldDamage;
 _unit setVariable [format [QGVAR($%1), _hitPoint], _newDamage];
 
@@ -138,7 +141,7 @@ if (_hitPoint isEqualTo "ace_hdbracket") exitWith {
 
     // Don't trigger for minor damage.
     if (_receivedDamage > 1E-3) then {
-        [QGVAR(woundReceived), [_unit, _woundedHitPoint, _receivedDamage, _shooter, _ammo]] call CBA_fnc_localEvent;
+        [QEGVAR(medical,woundReceived), [_unit, _woundedHitPoint, _receivedDamage, _shooter, _ammo]] call CBA_fnc_localEvent;
     };
 
     // resetting these single-damage-event tracker vars, if we don't do this then
@@ -158,14 +161,14 @@ if (_hitPoint isEqualTo "ace_hdbracket") exitWith {
 // Check for drowning damage.
 // Don't change the third expression. Safe method for FLOATs.
 if (_hitPoint isEqualTo "#structural" && {getOxygenRemaining _unit <= 0.5} && {_damage isEqualTo (_oldDamage + 0.005)}) exitWith {
-    [QGVAR(woundReceived), [_unit, "Body", _newDamage, _unit, "#drowning"]] call CBA_fnc_localEvent;
+    [QEGVAR(medical,woundReceived), [_unit, "Body", _newDamage, _unit, "#drowning"]] call CBA_fnc_localEvent;
 
     0
 };
 
 // Handle vehicle crashes
 if (_isCrash) exitWith {
-    [QGVAR(woundReceived), [_unit, "Body", _newDamage, _unit, "#vehiclecrash"]] call CBA_fnc_localEvent;
+    [QEGVAR(medical,woundReceived), [_unit, "Body", _newDamage, _unit, "#vehiclecrash"]] call CBA_fnc_localEvent;
 
     0
 };
