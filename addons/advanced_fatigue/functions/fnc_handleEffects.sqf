@@ -1,3 +1,4 @@
+#include "script_component.hpp"
 /*
  * Author: BaerMitUmlaut
  * Handles any audible, visual and physical effects of fatigue.
@@ -16,7 +17,6 @@
  *
  * Public: No
  */
-#include "script_component.hpp"
 params ["_unit", "_fatigue", "_speed", "_overexhausted"];
 
 #ifdef DEBUG_MODE_FULL
@@ -88,14 +88,7 @@ if (_overexhausted) then {
     };
 };
 
-switch (stance _unit) do {
-    case ("CROUCH"): {
-        _unit setCustomAimCoef (1.0 + _fatigue ^ 2 * 0.1);
-    };
-    case ("PRONE"): {
-        _unit setCustomAimCoef (1.0 + _fatigue ^ 2 * 2.0);
-    };
-    default {
-        _unit setCustomAimCoef (1.5 + _fatigue ^ 2 * 3.0);
-    };
-};
+_unit setVariable [QGVAR(aimFatigue), _fatigue];
+
+private _aimCoef = [missionNamespace, "ACE_setCustomAimCoef", "max"] call EFUNC(common,arithmeticGetResult);
+_unit setCustomAimCoef _aimCoef;
