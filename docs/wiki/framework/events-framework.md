@@ -82,6 +82,7 @@ MenuType: 0 = Interaction, 1 = Self Interaction
 | Event Key | Parameters | Locality | Type | Description |
 |----------|---------|---------|---------|---------|---------|
 |`ace_tripflareTriggered` | [_flareObject, [_posX, _posY, _posZ]] | Global | Listen | Tripflare triggered
+|`ace_explosives_clackerAdded` | [_unit, _explosive, _id] | Local | Listen | Clacker added to explosive
 
 ### 2.9 Logistics Wirecutter (`ace_logistics`)
 
@@ -89,6 +90,29 @@ MenuType: 0 = Interaction, 1 = Self Interaction
 |----------|---------|---------|---------|---------|---------|
 |`ace_wireCuttingStarted` | [_unit, _fence] | Global | Listen | Fence cutting started
 
+### 2.9 Refuel (`ace_refuel`)
+
+| Event Key | Parameters | Locality | Type | Description |
+|----------|---------|---------|---------|---------|---------|
+|`ace_refuel_started` | [_source, _target] | Local | Listen | Refueling has started
+|`ace_refuel_tick` | [_source, _target, _amount] | Local | Listen | Amount of fuel transferred in a tick
+|`ace_refuel_stopped` | [_source, _target] | Local | Listen | Refueling has stopped
+
+### 2.10 Cook Off (`ace_cookoff`)
+
+| Event Key | Parameters | Locality | Type | Description |
+|----------|---------|---------|---------|---------|---------|
+|`ace_cookoff_cookOff` | _vehicle | Global | Listen | Vehicle cook off has started
+|`ace_cookoff_cookOffBox` | _box | Global | Listen | Ammo box cook off has started
+|`ace_cookoff_engineFire` | _vehicle | Global | Listen | Engine fire has started
+
+
+### 2.11 Attach (`ace_attach`)
+
+| Event Key | Parameters | Locality | Type | Description |
+|----------|---------|---------|---------|---------|---------|
+|`ace_attach_attached` | [_attachedObject, _itemClassname] | Local | Listen | After an item was attached to a unit/vehicle
+|`ace_attach_detaching` | [_attachedObject, _itemName] | Local | Listen | Just before an item gets detached/removed from a unit/vehicle
 
 ## 3. Usage
 Also Reference [CBA Events System](https://github.com/CBATeam/CBA_A3/wiki/Custom-Events-System){:target="_blank"} documentation.
